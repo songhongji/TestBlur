@@ -15,7 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RenderScriptBlurTestActivity"></activity>
+        <activity android:name=".RenderScriptBlurTestActivity" />
+        <activity android:name=".JavaBlurActivity" />
+        <activity android:name=".AdvancedJavaBlurActivity" />
+        <activity android:name=".AdvancedRenderScriptBlurActivity"></activity>
     </application>
 
 </manifest>

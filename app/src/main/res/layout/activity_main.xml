@@ -18,6 +18,12 @@
         android:text="Test Render Script" />
 
     <Button
+        android:id="@+id/test_advanced_render_script_blur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Advanced Render Script" />
+
+    <Button
         android:id="@+id/test_java_blur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
