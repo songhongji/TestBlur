@@ -18,7 +18,12 @@
         <activity android:name=".RenderScriptBlurTestActivity" />
         <activity android:name=".JavaBlurActivity" />
         <activity android:name=".AdvancedJavaBlurActivity" />
-        <activity android:name=".AdvancedRenderScriptBlurActivity"></activity>
+        <activity android:name=".AdvancedRenderScriptBlurActivity" />
+        <activity android:name=".JniTestActivity" />
+        <activity android:name=".JniPixelBlurActivity" />
+        <activity android:name=".JniBitmapBlurActivity" />
+        <activity android:name=".AdvancedJniBitmapBlurActivity" />
+        <activity android:name=".AdvancedJniPixelBlurActivity"></activity>
     </application>
 
 </manifest>

@@ -36,14 +36,40 @@
         android:text="Test Advanced Java Blur" />
 
     <Button
-        android:id="@+id/test_jni_blur"
+        android:id="@+id/test_jni_pixel_blur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test JNI Blur" />
+        android:text="Test JNI Pixel Blur" />
+
+    <Button
+        android:id="@+id/test_advanced_jni_pixel_blur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Advanced JNI Pixel Blur" />
+
+    <Button
+        android:id="@+id/test_jni_bitmap_blur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test JNI BitMap Blur" />
+
+    <Button
+        android:id="@+id/test_advanced_jni_bitmap_blur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Advanced JNI BitMap Blur" />
 
     <Button
         android:id="@+id/test_all_blur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Test All Blur" />
+
+    <Button
+        android:id="@+id/jni_test_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test JNI" />
+
+
 </LinearLayout>
