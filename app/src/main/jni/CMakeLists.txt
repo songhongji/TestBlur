@@ -21,6 +21,13 @@ add_library( # Specifies the name of the library.
              com_winter_testblur_StackNative.c jnitest.c stackblur.c
              )
 
-
 # Specifies a path to native header files.
 include_directories(src/main/jni/)
+
+target_link_libraries( # Specifies the target library.
+                   TestJniLibName
+                   -ljnigraphics
+
+                   # Links the target library to the log library
+                   # included in the NDK.
+                   ${log-lib} )

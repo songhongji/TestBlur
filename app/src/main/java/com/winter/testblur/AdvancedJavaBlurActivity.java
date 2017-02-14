@@ -61,7 +61,7 @@ public class AdvancedJavaBlurActivity extends AppCompatActivity {
         paint.setFlags(Paint.FILTER_BITMAP_FLAG);
         canvas.drawBitmap(bkg, 0, 0, paint);
 
-        overlay = StackBlur.blur(overlay, radius, true);
+        overlay = StackBlur.blurJava(overlay, radius, true);
         view.setBackground(new BitmapDrawable(getResources(), overlay));
 
         showTime.setText("cost " + (System.currentTimeMillis() - startMs) + "ms");

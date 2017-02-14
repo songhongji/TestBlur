@@ -1,6 +1,15 @@
 package com.winter.testblur;
 
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.os.Build;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
+import android.view.View;
 
 /**
  * Created by songhongji on 2017/2/12.
@@ -28,6 +37,20 @@ public class StackBlur extends StackNative{
         return (rBitmap);
     }
 
+    // 压缩
+    public static Bitmap buildBitmapCompress(Bitmap original, View view, float scaleFactor) {
+
+        Bitmap overlay = Bitmap.createBitmap((int) (view.getMeasuredWidth() / scaleFactor), (int) (view.getMeasuredHeight() / scaleFactor), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(overlay);
+        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop() / scaleFactor);
+        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
+        Paint paint = new Paint();
+        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
+        canvas.drawBitmap(original, 0, 0, paint);
+
+        return overlay;
+    }
+
     /**
      * StackBlur By Java Bitmap
      *
@@ -36,7 +59,7 @@ public class StackBlur extends StackNative{
      * @param canReuseInBitmap Can reuse In original Bitmap
      * @return Image Bitmap
      */
-    public static Bitmap blur(Bitmap original, int radius, boolean canReuseInBitmap) {
+    public static Bitmap blurJava(Bitmap original, int radius, boolean canReuseInBitmap) {
         // Stack Blur v1.0 from
         // http://www.quasimondo.com/StackBlurForCanvas/StackBlurDemo.html
         //
@@ -47,7 +70,7 @@ public class StackBlur extends StackNative{
         // http://www.kayenko.com
         // ported april 5th, 2012
 
-        // This is a compromise between Gaussian Blur and Box blur
+        // This is a compromise between Gaussian Blur and Box blurJava
         // It creates much better looking blurs than Box Blur, but is
         // 7x faster than my Gaussian Blur implementation.
         //
@@ -70,7 +93,7 @@ public class StackBlur extends StackNative{
 
         Bitmap bitmap = buildBitmap(original, canReuseInBitmap);
 
-        // Return this none blur
+        // Return this none blurJava
         if (radius == 1) {
             return bitmap;
         }
@@ -274,6 +297,27 @@ public class StackBlur extends StackNative{
         return (bitmap);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public static Bitmap blurRenderScript(Bitmap original, int radius, Context context) {
+
+        Bitmap.Config config = original.getConfig();
+        if (config != Bitmap.Config.ARGB_8888 && config != Bitmap.Config.RGB_565) {
+            throw new RuntimeException("Blur bitmap only supported Bitmap.Config.ARGB_8888 and Bitmap.Config.RGB_565.");
+        }
+
+        // 初始化 RenderScript Content
+        RenderScript rs = RenderScript.create(context);
+        Allocation overlayAlloc = Allocation.createFromBitmap(rs, original);
+        ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rs, overlayAlloc.getElement());
+        blur.setInput(overlayAlloc);
+        blur.setRadius(radius);
+        blur.forEach(overlayAlloc);
+        overlayAlloc.copyTo(original);
+        rs.destroy();
+
+        return original;
+    }
+
     /**
      * StackBlur By Jni Bitmap
      *
@@ -282,14 +326,14 @@ public class StackBlur extends StackNative{
      * @param canReuseInBitmap Can reuse In original Bitmap
      * @return Image Bitmap
      */
-    public static Bitmap blurNatively(Bitmap original, int radius, boolean canReuseInBitmap) {
+    public static Bitmap blurNativelyBitmap(Bitmap original, int radius, boolean canReuseInBitmap) {
         if (radius < 1) {
             return null;
         }
 
         Bitmap bitmap = buildBitmap(original, canReuseInBitmap);
 
-        // Return this none blur
+        // Return this none blurJava
         if (radius == 1) {
             return bitmap;
         }
@@ -315,7 +359,7 @@ public class StackBlur extends StackNative{
 
         Bitmap bitmap = buildBitmap(original, canReuseInBitmap);
 
-        // Return this none blur
+        // Return this none blurJava
         if (radius == 1) {
             return bitmap;
         }

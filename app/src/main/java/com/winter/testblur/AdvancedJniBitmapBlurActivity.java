@@ -6,8 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -59,7 +59,7 @@ public class AdvancedJniBitmapBlurActivity extends AppCompatActivity {
         paint.setFlags(Paint.FILTER_BITMAP_FLAG);
         canvas.drawBitmap(bkg, 0, 0, paint);
 
-        overlay = StackBlur.blurNatively(overlay, radius, true);
+        overlay = StackBlur.blurNativelyBitmap(overlay, radius, true);
         view.setBackground(new BitmapDrawable(getResources(), overlay));
 
         showTime.setText("cost " + (System.currentTimeMillis() - startMs) + "ms");

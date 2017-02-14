@@ -2,15 +2,10 @@ package com.winter.testblur;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -52,28 +47,12 @@ public class AdvancedRenderScriptBlurActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void blur(Bitmap bkg, View view) {
         long startMs = System.currentTimeMillis();
-        float radius = 2;
+        int radius = 2;
         float scaleFactor = 8;
 
-        Bitmap overlay = Bitmap.createBitmap((int) (view.getMeasuredWidth() / scaleFactor), (int) (view.getMeasuredHeight() / scaleFactor), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(overlay);
-        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop() / scaleFactor);
-        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
-        Paint paint = new Paint();
-        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-        canvas.drawBitmap(bkg, 0, 0, paint);
-
-        // 初始号 RenderScript Content
-        RenderScript rs = RenderScript.create(AdvancedRenderScriptBlurActivity.this);
-
-        Allocation overlayAlloc = Allocation.createFromBitmap(rs, overlay);
-        ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rs, overlayAlloc.getElement());
-        blur.setInput(overlayAlloc);
-        blur.setRadius(radius);
-        blur.forEach(overlayAlloc);
-        overlayAlloc.copyTo(overlay);
+        Bitmap overlay = StackBlur.buildBitmapCompress(bkg, view, scaleFactor);
+        overlay = StackBlur.blurRenderScript(overlay, radius, getApplicationContext());
         view.setBackground(new BitmapDrawable(getResources(), overlay));
-        rs.destroy();
 
         showTime.setText("cost " + (System.currentTimeMillis() - startMs) + "ms");
     }

@@ -17,7 +17,7 @@ Description:    Using stack way blurred image pixels
 Calls:          malloc
 Table Accessed: NULL
 Table Updated:	NULL
-Input:          Collection of pixels, wide image, image is high, the blur radius
+Input:          Collection of pixels, wide image, image is high, the blurJava radius
 Output:         After return to fuzzy collection of pixels
 Return:         After return to fuzzy collection of pixels
 Others:         NULL

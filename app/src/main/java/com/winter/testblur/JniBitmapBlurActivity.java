@@ -3,12 +3,8 @@ package com.winter.testblur;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -58,7 +54,7 @@ public class JniBitmapBlurActivity extends AppCompatActivity {
         canvas.translate(-view.getLeft(), -view.getTop());
         canvas.drawBitmap(bkg, 0, 0, null);
 
-        overlay = StackBlur.blurNatively(overlay, radius, true);
+        overlay = StackBlur.blurNativelyBitmap(overlay, radius, true);
         view.setBackground(new BitmapDrawable(getResources(), overlay));
 
         showTime.setText("cost " + (System.currentTimeMillis() - startMs) + "ms");

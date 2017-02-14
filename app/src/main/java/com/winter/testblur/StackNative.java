@@ -7,7 +7,7 @@ package com.winter.testblur;
 import android.graphics.Bitmap;
 
 /**
- * This use jni blur bitmap and pixels
+ * This use jni blurJava bitmap and pixels
  * Blur arithmetic is StackBlur
  */
 class StackNative {
